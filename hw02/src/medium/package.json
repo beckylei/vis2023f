@@ -1,0 +1,14 @@
+{
+  "name": "c318bdde54653476",
+  "main": "c318bdde54653476@20.js",
+  "version": "20.0.0",
+  "homepage": "https://observablehq.com/d/c318bdde54653476",
+  "author": {
+    "name": "雷岱蓉's Workspace",
+    "url": "https://observablehq.com/@lei-dai-rong-ws"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}
