@@ -183,9 +183,10 @@
   </div>
 
   <!-- ------------------------------------------------>
+  <!-- ------------------------------------------------>
   <div class="row hw12">
     <div class="col-md-12 twenty">
-      心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。心得報告 105 字。
+      作業9真的是很大的工程，除了要到美術館錄影外，還要利用動補技術去用軟體生成動作檔，生成完後還要到blender做調整再拉進unity，根本就是在做之前電腦動畫課的專案XDD
     </div>
   </div>
 
@@ -193,29 +194,44 @@
   <div class="row hw12">
     <div class="col-md-12 twenty">
       <table>
-        <tr>
+        <tbody><tr>
           <th>總分</th>
           <th>完成後打勾</th>
           <th>配分</th>
           <th>分項描述</th>
         </tr>
         <tr>
-          <td rowspan="7" id="myTotal"></td>
-          <td><input type="checkbox" class="flipswitch" id="myCheckbox1"></td>
-          <td id='m1'>2</td>
-          <td>Simple baseline - 描述、描述、描述</td>
+          <td rowspan="7" id="myTotal">10</td>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox1" checked=""></td>
+          <td id="m1">1</td>
+          <td>Simple baseline - 在場景中加入虛擬解說員</td>
         </tr>
         <tr>
-          <td><input type="checkbox" class="flipswitch" id="myCheckbox2" checked></td>
-          <td id='m2'>6</td>
-          <td>Medium baseline - 描述、描述、描述 </td>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox2" checked=""></td>
+          <td id="m2">1</td>
+          <td>Simple baseline - 繳交預演版影片與音檔</td>
         </tr>
         <tr>
-          <td><input type="checkbox" class="flipswitch" id="myCheckbox3"></td>
-          <td id='m3'>2</td>
-          <td>Strong baseline - 描述、描述、描述 </td>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox3" checked=""></td>
+          <td id="m3">1</td>
+          <td>Simple baseline - 繳交正式版影片與音檔</td>
         </tr>
-      </table>
+        <tr>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox4" checked=""></td>
+          <td id="m4">3</td>
+          <td>Medium baseline - 虛擬解說員進行解說</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox5" checked=""></td>
+          <td id="m5">2</td>
+          <td>Medium baseline - 繳交左右對照影片</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox6"></td>
+          <td id="m6">2</td>
+          <td>Strong baseline - 加入臉部表情：眨眼、動嘴巴 </td>
+        </tr>
+      </tbody></table>
     </div>
   </div>
 
@@ -223,11 +239,21 @@
   <div class="row hw12">
     <div class="col-md-12 twenty">
       <video id="video1" style="width:100%;max-width:100%;" controls="">
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        <source src="./src/111598069.mp4" type="video/mp4">
       </video>
     </div>
   </div>
+  <!-- ------------------------------------------------>
 
+
+  <!-- ------------------------------------------------>
+  <div class="row hw12">
+    <div class="col-md-12 twenty">
+      <video id="video2" style="width:100%;max-width:100%;" controls="">
+        <source src="./src/111598069_2.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
   <!-- ------------------------------------------------>
 
   <!-- ------------------------------------------------>
@@ -247,7 +273,6 @@
   d3.select("#myCheckbox4").on("change",update);
   d3.select("#myCheckbox5").on("change",update);
   d3.select("#myCheckbox6").on("change",update);
-  d3.select("#myCheckbox7").on("change",update);
 
   update();
   
@@ -265,6 +290,17 @@
 
     if (d3.select("#myCheckbox3").property("checked")){
       score += parseInt(d3.select('#m3').html());   
+    }
+    if (d3.select("#myCheckbox4").property("checked")){
+      score += parseInt(d3.select('#m4').html());
+    }
+
+    if (d3.select("#myCheckbox5").property("checked")){
+      score += parseInt(d3.select('#m5').html());   
+    }
+
+    if (d3.select("#myCheckbox6").property("checked")){
+      score += parseInt(d3.select('#m6').html());   
     }
 
     d3.select("#myTotal").html(score);    
