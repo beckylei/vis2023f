@@ -64,7 +64,7 @@ artist_counts.flatMap((item, index) => ([
 )}
 
 function _13(md){return(
-md`## Simple baseline - 用plot完成堆疊柱狀圖用plot完成堆疊柱狀圖、在兩個堆疊柱狀圖中分別加入Checkbox input使其可選擇呈現的資料集`
+md`## Simple baseline - 用plot完成堆疊柱狀圖用plot完成堆疊柱狀圖(3pt)、在兩個堆疊柱狀圖中分別加入Checkbox input使其可選擇呈現的資料集(1pt)`
 )}
 
 function _selectedSeries(Inputs){return(
@@ -86,7 +86,7 @@ Plot.plot({
   },
   color: {
     domain: ['artist', 'artistpublic'],
-    range: ['#FCE9DA', '#FFCEC7'],  // 你可以根據需要更改顏色
+    range: ['#FCE9DA', '#FFCEC7'],  
     legend: true
   },
   marks: [
@@ -101,62 +101,51 @@ Plot.plot({
 )}
 
 function _16(md){return(
-md`## Medium baseline - 用SVG完成堆疊柱狀圖、加入Checkbox input使其可選擇呈現的資料集`
+md`## Medium baseline - 用SVG完成堆疊柱狀圖(2pt)、加入Checkbox input使其可選擇呈現的資料集(1pt)、在SVG產生的堆疊柱狀圖中加入D3的過渡效果(1pt)`
 )}
 
 function _selectedSeries1(Inputs){return(
 Inputs.checkbox(["artist", "artistpublic"], {label: "Choose datasets", value: ["artist", "artistpublic"]})
 )}
 
-function _chart(data,selectedSeries1,d3)
+function _chart1(data,selectedSeries1,d3)
 {
-  // 定義邊界大小，以及圖形的寬度和高度
   const margin = {top: 20, right: 30, bottom: 30, left: 40};
   const width = 500 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // 取得所有的系列名稱（無重複）
   const keys = Array.from(new Set(data.map(d => d.series)));
   
-  // 根據選擇的系列過濾數據
   const filteredData = data.filter(d => selectedSeries1.includes(d.series));
 
-  // 對過濾後的數據進行分組處理
   let grouped = Array.from(d3.group(filteredData, d => d.value), ([key, value]) => {
     return {value: key, ...Object.fromEntries(value.map(obj => [obj.series, obj.count]))};
   });
 
-  // 定義堆疊方式並計算
   const stack = d3.stack().keys(keys);
   const series = stack(grouped);
   
-  // 定義x軸的比例尺
   const xScale = d3.scaleBand()
     .domain(data.map(d => d.value))
     .range([0, width])
     .padding(0.1);
 
-  // 定義y軸的比例尺
   const yMax = d3.max(series, serie => d3.max(serie, d => d[1]));
   const yScale = d3.scaleLinear()
       .domain([0, yMax]).nice()
       .range([height, 0]);
 
-  // 定義顏色的比例尺
   const colorScale = d3.scaleOrdinal()
     .domain(keys)
     .range(['#FCE9DA', '#FFCEC7']);
 
-  // 創建SVG元素
   const svg = d3.create("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
-  // 在SVG中添加一個包含所有內容的g元素(對它進行一個平移變換，以便為接下來的元素提供一個留白的區域)
   const g = svg.append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  // 繪製每一個系列的柱子
   series.forEach((serie) => {
       let bars = g.append("g")
           .attr("fill", colorScale(serie.key))
@@ -168,7 +157,8 @@ function _chart(data,selectedSeries1,d3)
           .attr("y", height)
           .attr("width", xScale.bandwidth())
           .attr("height", 0)
-
+          .transition() 
+          .duration(1000)
           .attr("y", d => yScale(d[1]))
           .attr("height", d => yScale(d[0]) - yScale(d[1]));
   });
@@ -187,157 +177,59 @@ function _chart(data,selectedSeries1,d3)
 
 
 function _19(md){return(
-md`## Medium baseline - 在SVG產生的堆疊柱狀圖中加入D3的過渡效果`
-)}
-
-function _chart1(data,selectedSeries1,d3)
-{
-  // 定義邊界大小，以及圖形的寬度和高度
-  const margin = {top: 20, right: 30, bottom: 30, left: 40};
-  const width = 500 - margin.left - margin.right;
-  const height = 400 - margin.top - margin.bottom;
-
-  // 取得所有的系列名稱（無重複）
-  const keys = Array.from(new Set(data.map(d => d.series)));
-  
-  // 根據選擇的系列過濾數據
-  const filteredData = data.filter(d => selectedSeries1.includes(d.series));
-
-  // 對過濾後的數據進行分組處理
-  let grouped = Array.from(d3.group(filteredData, d => d.value), ([key, value]) => {
-    return {value: key, ...Object.fromEntries(value.map(obj => [obj.series, obj.count]))};
-  });
-
-  // 定義堆疊方式並計算
-  const stack = d3.stack().keys(keys);
-  const series = stack(grouped);
-  
-  // 定義x軸的比例尺
-  const xScale = d3.scaleBand()
-    .domain(data.map(d => d.value))
-    .range([0, width])
-    .padding(0.1);
-
-  // 定義y軸的比例尺
-  const yMax = d3.max(series, serie => d3.max(serie, d => d[1]));
-  const yScale = d3.scaleLinear()
-      .domain([0, yMax]).nice()
-      .range([height, 0]);
-
-  // 定義顏色的比例尺
-  const colorScale = d3.scaleOrdinal()
-    .domain(keys)
-    .range(['#FCE9DA', '#FFCEC7']);
-
-  // 創建SVG元素
-  const svg = d3.create("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
-
-  // 在SVG中添加一個包含所有內容的g元素(對它進行一個平移變換，以便為接下來的元素提供一個留白的區域)
-  const g = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-  // 繪製每一個系列的柱子
-  series.forEach((serie) => {
-      let bars = g.append("g")
-          .attr("fill", colorScale(serie.key))
-          .selectAll("rect")
-          .data(serie);
-  
-      bars.enter().append("rect")
-          .attr("x", d => xScale(d.data.value))
-          .attr("y", height)
-          .attr("width", xScale.bandwidth())
-          .attr("height", 0)
-        //新增以下兩行可新增出過渡效果
-          .transition() 
-          .duration(1000) //改為0可以呈現無過度效果
-        //新增到這兩行可新增出過渡效果
-          .attr("y", d => yScale(d[1]))
-          .attr("height", d => yScale(d[0]) - yScale(d[1]));
-  });
-
-  // 繪製x軸
-  g.append("g")
-    .attr("transform", `translate(0,${height})`)
-    .call(d3.axisBottom(xScale));
-
-  // 繪製y軸
-  g.append("g")
-    .call(d3.axisLeft(yScale));
-
-  return svg.node();
-}
-
-
-function _21(md){return(
-md`## Strong baseline - 利用SVG製成的堆疊柱狀圖添加陰影效果、在圖中添加滑鼠游標偵測效果`
+md`## Strong baseline - 利用SVG製成的堆疊柱狀圖添加陰影效果(2pt)、在圖中添加滑鼠游標偵測效果(1pt)`
 )}
 
 function _chart2(data,selectedSeries1,d3)
 {
-  // 定義邊界大小，以及圖形的寬度和高度
   const margin = {top: 20, right: 30, bottom: 30, left: 40};
   const width = 500 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // 取得所有的系列名稱（無重複）
   const keys = Array.from(new Set(data.map(d => d.series)));
   
-  // 根據選擇的系列過濾數據
   const filteredData = data.filter(d => selectedSeries1.includes(d.series));
 
-  // 對過濾後的數據進行分組處理
   let grouped = Array.from(d3.group(filteredData, d => d.value), ([key, value]) => {
     return {value: key, ...Object.fromEntries(value.map(obj => [obj.series, obj.count]))};
   });
 
-  // 定義堆疊方式並計算
   const stack = d3.stack().keys(keys);
   const series = stack(grouped);
   
-  // 定義x軸的比例尺
   const xScale = d3.scaleBand()
     .domain(data.map(d => d.value))
     .range([0, width])
     .padding(0.1);
 
-  // 定義y軸的比例尺
   const yMax = d3.max(series, serie => d3.max(serie, d => d[1]));
   const yScale = d3.scaleLinear()
       .domain([0, yMax]).nice()
       .range([height, 0]);
 
-  // 定義顏色的比例尺
   const colorScale = d3.scaleOrdinal()
     .domain(keys)
     .range(['#FCE9DA', '#FFCEC7']);
-   // .range(['lightblue', 'lightblue']);
-     //d3.scaleLinear().domain([舊的範圍]).range([新的範圍]) 
-    //就是把舊範圍縮放到新的範圍內 
 
-  // 創建SVG元素
   const svg = d3.create("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
   
-  // 添加陰影濾鏡效果
   const defs = svg.append("defs");
   const filter = defs.append("filter")
       .attr("id", "drop-shadow")
       .attr("height", "130%");
   
-  filter.append("feGaussianBlur") //SVG濾鏡效果(高斯模糊) 用於模糊影像
+  filter.append("feGaussianBlur") 
       .attr("in", "SourceAlpha")
-      .attr("stdDeviation", 4) //模糊的程度
-      .attr("result", "blur"); //濾鏡的輸出
+      .attr("stdDeviation", 4) 
+      .attr("result", "blur"); 
 
-  filter.append("feOffset") //濾鏡的輸出(位移)
-      .attr("in", "blur") //濾鏡的輸出(為前面定義的blur)
-      .attr("dx", 4) //水平位移量
-      .attr("dy", 4) //垂直位移量
-      .attr("result", "offsetBlur"); //濾鏡的輸出名稱
+  filter.append("feOffset") 
+      .attr("in", "blur") 
+      .attr("dx", 4) 
+      .attr("dy", 4) 
+      .attr("result", "offsetBlur"); 
 
   const feMerge = filter.append("feMerge");
         feMerge.append("feMergeNode")
@@ -346,11 +238,9 @@ function _chart2(data,selectedSeries1,d3)
                .attr("in", "SourceGraphic"); //
 
 
-  // 在SVG中添加一個包含所有內容的g元素(對它進行一個平移變換，以便為接下來的元素提供一個留白的區域)
   const g = svg.append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
   
-  // 繪製每一個系列的柱子
   series.forEach((serie) => {
       let bars = g.append("g")
           .attr("fill", colorScale(serie.key))
@@ -364,17 +254,12 @@ function _chart2(data,selectedSeries1,d3)
           .attr("height", 0)
           .attr("y", d => yScale(d[1]))
           .attr("height", d => yScale(d[0]) - yScale(d[1]))
-          .attr("filter", "url(#drop-shadow)") // 添加陰影濾鏡效果
+          .attr("filter", "url(#drop-shadow)") 
           .on("mouseover", function(d) {
-              d3.select(this).attr("fill", "#FFD0A6"); //#CA7A2C
-             //d3.select(this).attr("fill", "#B47157pink");
-            
-              
-          
-              
+              d3.select(this).attr("fill", "#FFD0A6"); 
             })
         .on("mouseout", function(d) {
-            d3.select(this).attr("fill", colorScale(serie.key)); // 恢復原來的顏色
+            d3.select(this).attr("fill", colorScale(serie.key)); 
         d3.select(".tooltip").remove();
 
         });
@@ -389,8 +274,6 @@ function _chart2(data,selectedSeries1,d3)
   g.append("g")
     .call(d3.axisLeft(yScale));
 
-  
-
   return svg.node();
 }
 
@@ -400,7 +283,7 @@ export default function define(runtime, observer) {
   function toString() { return this.url; }
   const fileAttachments = new Map([
     ["artistpublic.csv", {url: new URL("./artistpublic.csv", import.meta.url), mimeType: "text/csv", toString}],
-    ["artistver.csv", {url: new URL("./artistver.csvartistver.csv", import.meta.url), mimeType: "text/csv", toString}]
+    ["artistver.csv", {url: new URL("./artistver.csv", import.meta.url), mimeType: "text/csv", toString}]
   ]);
   main.builtin("FileAttachment", runtime.fileAttachments(name => fileAttachments.get(name)));
   main.variable(observer()).define(["md"], _1);
@@ -422,10 +305,8 @@ export default function define(runtime, observer) {
   main.variable(observer()).define(["md"], _16);
   main.variable(observer("viewof selectedSeries1")).define("viewof selectedSeries1", ["Inputs"], _selectedSeries1);
   main.variable(observer("selectedSeries1")).define("selectedSeries1", ["Generators", "viewof selectedSeries1"], (G, _) => G.input(_));
-  main.variable(observer("chart")).define("chart", ["data","selectedSeries1","d3"], _chart);
-  main.variable(observer()).define(["md"], _19);
   main.variable(observer("chart1")).define("chart1", ["data","selectedSeries1","d3"], _chart1);
-  main.variable(observer()).define(["md"], _21);
+  main.variable(observer()).define(["md"], _19);
   main.variable(observer("chart2")).define("chart2", ["data","selectedSeries1","d3"], _chart2);
   return main;
 }
