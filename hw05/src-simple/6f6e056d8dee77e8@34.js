@@ -9,8 +9,8 @@ md`## Simple baseline - 實作Force-directed tree呈現小組情況(1pt)`
 function _simple1(d3,simple,invalidation)
 {
    // 指定圖表的尺寸。
-  const width = 500;
-  const height = 400;
+  const width = 1000;
+  const height = 1200;
 
   // 計算圖形並啟動力模擬。
   const root = d3.hierarchy(simple);
@@ -95,8 +95,8 @@ md`## Simple baseline - 使節點可以被拖拉移動(1pt)`
 function _simple2(d3,simple,drag,invalidation)
 {
   // 指定圖表的尺寸。
-  const width = 500;
-  const height = 400;
+  const width = 1000;
+  const height = 1200;
 
   // 計算圖形並啟動力模擬。
   const root = d3.hierarchy(simple);
@@ -205,8 +205,8 @@ md`## Simple baseline - 將個人圖片放入節點圓圈中(1pt)`
 function _simple3(d3,simple,drag,invalidation)
 {
   // 指定圖表的尺寸。
-  const width = 500;
-  const height = 400;
+  const width = 1000;
+  const height = 1200;
 
   // 計算圖形並啟動力模擬。
   const root = d3.hierarchy(simple);
